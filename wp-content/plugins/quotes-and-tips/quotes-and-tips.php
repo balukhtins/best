@@ -37,14 +37,11 @@ if ( ! function_exists( 'add_qtsndtps_admin_menu' ) ) {
 		if ( isset( $submenu['edit.php?post_type=quote'] ) ) {
 			$settings = add_submenu_page( 'edit.php?post_type=quote', __( 'Quotes and Tips Settings', 'quotes-and-tips' ), __( 'Settings', 'quotes-and-tips' ), 'manage_options', 'quotes-and-tips.php', 'qtsndtps_settings_page' );
 			add_submenu_page( 'edit.php?post_type=quote', 'BWS Panel', 'BWS Panel', 'manage_options', 'qtsndtps-bws-panel', 'bws_add_menu_render' );
-            $new_category = add_submenu_page( 'edit.php?post_type=quote', __( 'New Category Quote', 'new-category-quote' ), __( 'New Category', 'new-category-quote' ), 'manage_options', 'new-category', 'qtsndtps_new_category_page' );
-
-        }
+		}
 		if ( isset( $submenu['edit.php?post_type=tips'] ) ) {
 			$settings = add_submenu_page( 'edit.php?post_type=tips', __( 'Quotes and Tips Settings', 'quotes-and-tips' ), __( 'Settings', 'quotes-and-tips' ), 'manage_options', 'quotes-and-tips.php', 'qtsndtps_settings_page' );
-            add_submenu_page( 'edit.php?post_type=tips', 'BWS Panel', 'BWS Panel', 'manage_options', 'qtsndtps-bws-panel', 'bws_add_menu_render' );
-            $new_category = add_submenu_page( 'edit.php?post_type=tips', __( 'New Category Tips', 'new-category-tips' ), __( 'New Category', 'new-category-tips' ), 'manage_options', 'new-category', 'qtsndtps_new_category_page' );
-        }
+			add_submenu_page( 'edit.php?post_type=tips', 'BWS Panel', 'BWS Panel', 'manage_options', 'qtsndtps-bws-panel', 'bws_add_menu_render' );
+		}
 
 		add_action( 'load-' . $settings, 'qtsndtps_add_tabs' );
 		add_action( 'load-post.php', 'qtsndtps_add_tabs' );
@@ -138,7 +135,7 @@ if ( ! function_exists( 'qtsndtps_get_options_default' ) ) {
 			'background_image_position'	    => array( 'left', 'bottom' ),
 			'display_settings_notice'		=> 1,
 			'suggest_feature_banner'		=> 1,
-			'widget_background_opacity'		=> 1
+			'widget_background_opacity'		=> 1,
 		);
 
 		return $qtsndtps_options_defaults;
@@ -194,6 +191,7 @@ if ( ! function_exists( 'qtsndtps_register_tips_post_type' ) ) {
 			'rewrite'			=> true,
 			'supports'			=> array( 'title', 'editor' ),
 			'menu_icon'			=> 'dashicons-testimonial',
+            'taxonomies'        => array('category'),
 			'labels'			=> array(
 				'add_new_item'			=> __( 'Add a New Tip', 'quotes-and-tips' ),
 				'edit_item'				=> __( 'Edit Tip', 'quotes-and-tips' ),
@@ -223,7 +221,8 @@ if ( ! function_exists( 'qtsndtps_register_quote_post_type' ) ) {
 			'rewrite'			=> true,
 			'supports'			=> array( 'title', 'editor' ),
 			'menu_icon'			=> 'dashicons-format-quote',
-			'labels'			=> array(
+            'taxonomies'        => array('category'),
+            'labels'			=> array(
 				'add_new_item'			=> __( 'Add a New Quote', 'quotes-and-tips' ),
 				'edit_item'				=> __( 'Edit Quote', 'quotes-and-tips' ),
 				'new_item'				=> __( 'New Quote', 'quotes-and-tips' ),
