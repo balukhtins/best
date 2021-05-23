@@ -255,7 +255,8 @@ if ( ! function_exists( 'qtsndtps_create_tip_quote_block' ) ) {
 		global $post, $qtsndtps_options;
 		$atts = shortcode_atts( array(
 			'type' => 'quotes_and_tips',
-		), $atts );
+            'cat_id' => 0,
+        ), $atts );
 		$atts['type']   = explode( '_and_', $atts['type'] );
 		$display_quotes = in_array( 'quotes', $atts['type'] );
 		$display_tips   = in_array( 'tips', $atts['type'] );
@@ -265,8 +266,9 @@ if ( ! function_exists( 'qtsndtps_create_tip_quote_block' ) ) {
 				'post_type'			=> 'quote',
 				'post_status'		=> 'publish',
 				'orderby'			=> 'rand',
-				'posts_per_page'	=> '0' == $qtsndtps_options['page_load'] ? -1 : 1
-			);
+				'posts_per_page'	=> '0' == $qtsndtps_options['page_load'] ? -1 : 1,
+                'category'    => $atts['cat_id'],
+            );
 			$quotes = get_posts( $quotes_args );
 		}
 		if ( $display_tips ) {
@@ -274,8 +276,9 @@ if ( ! function_exists( 'qtsndtps_create_tip_quote_block' ) ) {
 				'post_type'			=> 'tips',
 				'post_status'		=> 'publish',
 				'orderby'			=> 'rand',
-				'posts_per_page'	=> '0' == $qtsndtps_options['page_load'] ? -1 : 1
-			);
+				'posts_per_page'	=> '0' == $qtsndtps_options['page_load'] ? -1 : 1,
+                'category'    => $atts['cat_id'],
+            );
 			$tips = get_posts( $tips_args );
 		}
 
@@ -824,3 +827,5 @@ add_filter( 'plugin_row_meta', 'qtsndtps_register_plugin_links', 10, 2 );
 add_filter( 'plugin_action_links', 'qtsndtps_plugin_action_links', 10, 2 );
 /* add admin notices */
 add_action( 'admin_notices', 'qtsndtps_admin_notices' );
+
+add_shortcode( 'sort_by_category', 'qtsndtps_create_tip_quote_block_new' );
