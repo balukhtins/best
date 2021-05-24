@@ -828,4 +828,11 @@ add_filter( 'plugin_action_links', 'qtsndtps_plugin_action_links', 10, 2 );
 /* add admin notices */
 add_action( 'admin_notices', 'qtsndtps_admin_notices' );
 
-add_shortcode( 'sort_by_category', 'qtsndtps_create_tip_quote_block_new' );
+
+
+function kv_show_font_selector($buttons) {
+    $buttons[] = 'fontselect';
+    return $buttons;
+}
+
+add_filter('mce_buttons_2', 'kv_show_font_selector');

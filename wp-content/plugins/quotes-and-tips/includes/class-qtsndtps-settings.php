@@ -350,6 +350,9 @@ if ( ! class_exists( 'Qtsndtps_Settings_Tabs' ) ) {
 				<div class="inside">
 					<?php _e( "Add Quotes and Tips block to your page or post by using the following shortcode:", 'quotes-and-tips' ); ?>
 					<?php bws_shortcode_output( '[quotes_and_tips]' ); ?>
+                    <p></p>
+                    <?php _e( "For sorting Quotes and Tips block by category add to your page or post by using the following shortcode. Where type is \"quotes\" or \"tips\", and cat_id is the category number.", 'quotes-and-tips' ); ?>
+					<?php bws_shortcode_output( "[quotes_and_tips type='quote' cat_id=2]" ); ?>
 					<p><?php _e( "Or add the following strings into the template source code", 'quotes-and-tips' ); ?>:</p>
 					<code>&#60;?php if ( function_exists( 'qtsndtps_get_random_tip_quote' ) ) qtsndtps_get_random_tip_quote(); ?&#62;</code>
 				</div>
