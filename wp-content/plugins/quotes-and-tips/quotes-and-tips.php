@@ -343,7 +343,7 @@ if ( ! function_exists( 'qtsndtps_get_quotes_html' ) ) {
 						 ( '1' == $qtsndtps_options['title_post'] ? get_the_title() : $qtsndtps_options['quote_label'] ) .
 					 '</h3>
 					<p>
-						<i>"' . strip_tags( get_the_content() ) . '"</i>
+						<i>"' . get_the_content() . '"</i>
 					</p>
 					<p class="signature">';
 						if ( ! empty( $name_field[0] ) )
@@ -383,7 +383,7 @@ if ( ! function_exists( 'qtsndtps_get_tips_html' ) ) {
 					<h3>' .
 					 ( '1' == $qtsndtps_options['title_post'] ? get_the_title() : $qtsndtps_options['tip_label'] ) .
 					 '</h3>
-					<p>' . strip_tags( get_the_content() ) . '</p>
+					<p>' .  get_the_content() . '</p>
 					</div>';
 				$count ++;
 			}
@@ -478,6 +478,8 @@ if ( ! function_exists ( 'qtsndtps_print_style_script' ) ) {
 		$page_load            = $qtsndtps_options['page_load'];
 		$additional_options   = $qtsndtps_options['additional_options'];
 
+        preg_match_all('&#([0-9]{6})&', htmlspecialchars(get_the_content()), $post_color);
+
 		if ( '0' == $additional_options ) {
 			/* If additional settings is turned off */
 			$background_color     = $qtsndtps_options_defaults['background_color'];
@@ -561,7 +563,7 @@ if ( ! function_exists ( 'qtsndtps_print_style_script' ) ) {
                     background-color: <?php echo $background_color ?> !important;
                     background-repeat: <?php echo $repeat_rule; ?>;
                     color: <?php echo $text_color; ?> !important;
-                    <?php if ( '0' != $additional_options && 'custom' == $background_image && ! empty( $custom_bg_image ) ) { ?>
+                <?php if ( '0' != $additional_options && 'custom' == $background_image && ! empty( $custom_bg_image ) ) { ?>
                     background-image: url(<?php echo $custom_bg_image; ?> );
                     <?php } elseif ( '0' != $additional_options && 'none' == $background_image ) { ?>
                         background-image: none;
