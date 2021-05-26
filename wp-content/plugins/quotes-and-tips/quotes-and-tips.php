@@ -319,6 +319,20 @@ if ( ! function_exists( 'qtsndtps_create_tip_quote_block' ) ) {
 	}
 }
 
+/* Style For Quotes and Tips Block */
+if ( ! function_exists( 'qtsndtps_get_style' ) ) {
+    function qtsndtps_get_style( $get_the_content ) {
+        preg_match_all('&#[a-z0-9]{6}&', $get_the_content, $post_color);
+        (! empty($post_color[0])) ? $color = ' color:' . $post_color[0][0] . ';' : $color = '';
+        preg_match_all("&font-family: '([a-z -]+)'&", $get_the_content, $post_font);
+        (! empty($post_font[0])) ? $font = ' font-family: ' . $post_font[1][0] . ';' : $font = '';
+        if( ! empty($color) || ! empty($font)){
+            return ' style="' . $color . ' ' . $font . '"';
+        }
+        else return '';
+    }
+}
+
 /* Display Quotes Block */
 if ( ! function_exists( 'qtsndtps_get_quotes_html' ) ) {
 	function qtsndtps_get_quotes_html( $quotes_class, $posts, $atts ) {
@@ -331,10 +345,11 @@ if ( ! function_exists( 'qtsndtps_get_quotes_html' ) ) {
 		/* The Loop */
 		$count = 0;
 		foreach ( $posts as $quote ) {
-			$post       = $quote;
+            $post       = $quote;
 			$name_field = get_post_meta( $post->ID, 'name_field' );
 			$off_cap    = get_post_meta( $post->ID, 'off_cap' );
 			setup_postdata( $quote );
+            $style = qtsndtps_get_style( get_the_content() );
 			$html .= '<div class="' . esc_attr( $quotes_class ) .
 				 ( 0 < $count ? ' hidden ' : ' visible ' ) .
 				 '">
@@ -342,8 +357,8 @@ if ( ! function_exists( 'qtsndtps_get_quotes_html' ) ) {
 					<h3>' .
 						 ( '1' == $qtsndtps_options['title_post'] ? get_the_title() : $qtsndtps_options['quote_label'] ) .
 					 '</h3>
-					<p>
-						<i>"' . get_the_content() . '"</i>
+					<p' . $style . '>
+						<i>"' . strip_tags(get_the_content()) . '"</i>
 					</p>
 					<p class="signature">';
 						if ( ! empty( $name_field[0] ) )
@@ -377,13 +392,14 @@ if ( ! function_exists( 'qtsndtps_get_tips_html' ) ) {
 			foreach ( $posts as $tip ) {
 				$post = $tip;
 				setup_postdata( $tip );
+                $style = qtsndtps_get_style( get_the_content() );
 				$html .= '<div class="' . esc_attr( $tips_class ) .
 					 ( 0 < $count ? ' hidden ' : ' visible ' ) .
 					 '">
 					<h3>' .
 					 ( '1' == $qtsndtps_options['title_post'] ? get_the_title() : $qtsndtps_options['tip_label'] ) .
 					 '</h3>
-					<p>' .  get_the_content() . '</p>
+					<p' . $style . '>' . strip_tags(get_the_content()) . '</p>
 					</div>';
 				$count ++;
 			}
